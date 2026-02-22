@@ -21,9 +21,14 @@ public class GdoorProductClient {
     this.productMapper = productMapper;
   }
 
-  public List<Product> fetchAll() {
+  public List<Product> fetchAll(int page, int limit) {
     GdoorFetchAllResponse response = this.restClient.get()
-      .uri("/products")
+      .uri(uriBuilder -> uriBuilder
+        .path("/products")
+        .queryParam("page", page)
+        .queryParam("limit", limit)
+        .build()
+      )
       .retrieve()
       .body(GdoorFetchAllResponse.class);
 

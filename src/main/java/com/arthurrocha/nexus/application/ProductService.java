@@ -15,7 +15,7 @@ public class ProductService {
     this.gdoorClient = gdoorClient;
   }
 
-  public List<Product> listProducts() {
-    return this.gdoorClient.fetchAll();
+  public List<Product> listProducts(int page, int limit) {
+    return this.gdoorClient.fetchAll(page, limit);
   }
 }
