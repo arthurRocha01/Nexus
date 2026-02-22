@@ -3,12 +3,14 @@ package com.arthurrocha.nexus.infrastructure.client;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import com.arthurrocha.nexus.domain.Product;
 import com.arthurrocha.nexus.infrastructure.client.dto.GdoorFetchAllResponse;
 import com.arthurrocha.nexus.infrastructure.client.mapper.GdoorProductMapper;
 
+@Component
 public class GdoorProductClient {
   
   private final RestClient restClient;

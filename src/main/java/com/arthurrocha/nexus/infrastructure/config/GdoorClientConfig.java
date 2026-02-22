@@ -8,10 +8,10 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class GdoorClientConfig {
   
-  @Value("{gdoor.api.url}")
+  @Value("${gdoor.api.url}")
   private String baseUrl;
 
-  @Value("{gdoor.api.token}")
+  @Value("${gdoor.api.token}")
   private String token;
 
 
@@ -20,7 +20,7 @@ public class GdoorClientConfig {
     return RestClient.builder()
       .baseUrl(this.baseUrl)
       .defaultHeader("Accept", "application/json")
-      .defaultHeader("Authorization", "Bear " + this.token)
+      .defaultHeader("Authorization", "Bearer " + this.token)
       .build();
   }
 }
