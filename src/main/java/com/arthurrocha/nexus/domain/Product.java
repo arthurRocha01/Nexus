@@ -8,18 +8,54 @@ public class Product {
   private int quantity;
   private BigDecimal price;
   private String ncm;
+  private String barcode;
 
-  private Product(String id, String description, int quantity, BigDecimal price, String ncm) {
-    this.id = id;
-    this.description = description;
-    this.quantity = quantity;
-    this.price = price;
-    this.ncm = ncm;
+  private Product(Builder builder) {
+    this.id = builder.id;
+    this.description = builder.description;
+    this.quantity = builder.quantity;
+    this.price = builder.price;
+    this.ncm = builder.ncm;
+    this.barcode = builder.barcode;
   }
 
-  public static Product create(String id, String description, int quantity, BigDecimal price, String ncm) {
-    return new Product(id, description, quantity, price, ncm);
-  }
+  public static class Builder {
+        private String id;
+        private String description;
+        private int quantity;
+        private BigDecimal price;
+        private String ncm;
+        private String barcode;
+
+        public Builder(String id, String description) {
+            this.id = id;
+            this.description = description;
+        }
+
+        public Builder quantity(int quantity) {
+            this.quantity = quantity;
+            return this;
+        }
+
+        public Builder price(BigDecimal price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder ncm(String ncm) {
+            this.ncm = ncm;
+            return this;
+        }
+
+        public Builder barcode(String barcode) {
+            this.barcode = barcode;
+            return this;
+        }
+
+        public Product build() {
+            return new Product(this);
+        }
+    }
 
   public String getId() {
     return id;
@@ -39,5 +75,9 @@ public class Product {
 
   public String getNcm() {
     return ncm;
+  }
+
+  public String getBarcode() {
+    return barcode;
   }
 }

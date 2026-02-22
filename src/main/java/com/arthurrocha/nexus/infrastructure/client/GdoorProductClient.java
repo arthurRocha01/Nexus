@@ -8,6 +8,7 @@ import org.springframework.web.client.RestClient;
 
 import com.arthurrocha.nexus.domain.Product;
 import com.arthurrocha.nexus.infrastructure.client.dto.GdoorFetchAllResponse;
+import com.arthurrocha.nexus.infrastructure.client.dto.GdoorFetchOneResponse;
 import com.arthurrocha.nexus.infrastructure.client.mapper.GdoorProductMapper;
 
 @Component
@@ -39,5 +40,18 @@ public class GdoorProductClient {
       return response.data().stream()
         .map(productMapper::toDomain)
         .toList();
+  }
+
+  public Product fetchById(String id) {
+    GdoorFetchOneResponse response = this.restClient.get()
+      .uri("/products/{id}", id)
+      .retrieve()
+      .body(GdoorFetchOneResponse.class);
+
+      if (response == null) {
+        return null;
+      }
+
+      return this.productMapper.toDomain(response.data());
   }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,5 +28,11 @@ public class ProductController {
   ) {
     List<Product> products = this.service.listProducts(page, limit);
     return ResponseEntity.ok(products);
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<Product> findById(@PathVariable String id) {
+    Product product = this.service.getProductById(id);
+    return ResponseEntity.ok(product);
   }
 }

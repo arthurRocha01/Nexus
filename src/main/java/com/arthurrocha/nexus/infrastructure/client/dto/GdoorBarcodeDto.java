@@ -1,13 +1,9 @@
 package com.arthurrocha.nexus.infrastructure.client.dto;
 
-import java.util.List;
-
 import tools.jackson.databind.PropertyNamingStrategies;
 import tools.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record GdoorProductDto(
-  Long id,
-  String name,
-  List<GdoorProductDetailDto> details
+public record GdoorBarcodeDto(
+    String barcode
 ) {}

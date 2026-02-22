@@ -18,4 +18,8 @@ public class ProductService {
   public List<Product> listProducts(int page, int limit) {
     return this.gdoorClient.fetchAll(page, limit);
   }
+
+  public Product getProductById(String id) {
+    return this.gdoorClient.fetchById(id);
+  }
 }
