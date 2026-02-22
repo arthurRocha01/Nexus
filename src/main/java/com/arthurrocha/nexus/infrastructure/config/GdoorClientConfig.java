@@ -1,27 +1,26 @@
 package com.arthurrocha.nexus.infrastructure.config;
 
-// import feign.RequestInterceptor;
-// import feign.RequestTemplate;
-// import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
 
-// @Configuration
-// public class GdoorClientConfig {
+@Configuration
+public class GdoorClientConfig {
+  
+  @Value("{gdoor.api.url}")
+  private String baseUrl;
 
-//     @Value("${gdoor.api.token}")
-//     private String apiToken;
+  @Value("{gdoor.api.token}")
+  private String token;
 
-//     @Bean
-//     public RequestInterceptor gdoorRequestInterceptor() {
-//         return new RequestInterceptor() {
-//             @Override
-//             public void apply(RequestTemplate template) {
-//                 // Adiciona os headers padrões para todas as chamadas do Gdoor
-//                 template.header("Authorization", "Bearer " + apiToken);
-//                 template.header("Content-Type", "application/json");
-//                 template.header("Accept", "application/json");
-//             }
-//         };
-//     }
-// }
+
+  @Bean()
+  public RestClient gdoorClient() {
+    return RestClient.builder()
+      .baseUrl(this.baseUrl)
+      .defaultHeader("Accept", "application/json")
+      .defaultHeader("Authorization", "Bear " + this.token)
+      .build();
+  }
+}
