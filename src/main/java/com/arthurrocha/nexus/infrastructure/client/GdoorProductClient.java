@@ -11,6 +11,9 @@ import com.arthurrocha.nexus.infrastructure.client.dto.GdoorFetchAllResponse;
 import com.arthurrocha.nexus.infrastructure.client.dto.GdoorFetchOneResponse;
 import com.arthurrocha.nexus.infrastructure.client.mapper.GdoorProductMapper;
 
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ObjectNode;
+
 @Component
 public class GdoorProductClient {
   
@@ -53,5 +56,25 @@ public class GdoorProductClient {
       }
 
       return this.productMapper.toDomain(response.data());
+  }
+
+  public void update(Product product) {
+    String id = product.getId();
+
+    JsonNode rootNode = this.restClient.get()
+      .uri("/products/{id}", id)
+      .retrieve()
+      .body(JsonNode.class);
+
+      ObjectNode originalDataNode = (ObjectNode) rootNode.get("data");
+
+      ObjectNode updatedDataNode = productMapper.fromDomain(originalDataNode, product);
+      System.out.println(updatedDataNode);
+
+      this.restClient.put()
+        .uri("/products/{id}", id)
+        .body(updatedDataNode)
+        .retrieve()
+        .toBodilessEntity();
   }
 }

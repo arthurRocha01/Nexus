@@ -2,6 +2,13 @@ package com.arthurrocha.nexus.domain;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = Product.Builder.class)
 public class Product {
   private String id;
   private String description;
@@ -18,18 +25,23 @@ public class Product {
     this.ncm = builder.ncm;
     this.barcode = builder.barcode;
   }
-
+  
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder {
         private String id;
         private String description;
-        private int quantity;
+        private Integer quantity;
         private BigDecimal price;
         private String ncm;
         private String barcode;
 
-        public Builder(String id, String description) {
-            this.id = id;
-            this.description = description;
+        @JsonCreator
+        public Builder(
+          @JsonProperty("id") String id, 
+          @JsonProperty("description") String description) 
+        {
+          this.id = id;
+          this.description = description;
         }
 
         public Builder quantity(int quantity) {
@@ -65,7 +77,7 @@ public class Product {
     return description;
     }
 
-  public int getQuantity() {
+  public Integer getQuantity() {
     return quantity;
   }
 

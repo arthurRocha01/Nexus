@@ -22,4 +22,15 @@ public class ProductService {
   public Product getProductById(String id) {
     return this.gdoorClient.fetchById(id);
   }
+
+  public void updateProduct(String id, Product productData) {
+    Product productToUpdate = new Product.Builder(id, productData.getDescription())
+      .price(productData.getPrice())
+      .quantity(productData.getQuantity())
+      .ncm(productData.getNcm())
+      .barcode(productData.getBarcode())
+      .build();
+
+    this.gdoorClient.update(productToUpdate);
+  }
 }

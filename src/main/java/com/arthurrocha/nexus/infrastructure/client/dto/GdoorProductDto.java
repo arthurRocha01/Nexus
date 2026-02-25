@@ -7,7 +7,20 @@ import tools.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record GdoorProductDto(
-  Long id,
-  String name,
-  List<GdoorProductDetailDto> details
+    String id,
+    String name,
+    String product_type,
+    String measure_unit,
+    Integer commission,
+    String ippt,
+    Boolean active,
+    Boolean ghub_sync,
+    String obs,
+    Boolean has_grid,
+    Boolean has_weigth,
+    Boolean has_serial_numbers,
+    List<Object> units,
+    List<GdoorProductDetailDto> details,
+    Boolean use_composition,
+    Object composition
 ) {}

@@ -5,5 +5,10 @@ import tools.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record GdoorBarcodeDto(
-    String barcode
+    Integer id,
+    Integer master_id,
+    Integer product_id,
+    String barcode,
+    Integer multiplier,
+    Boolean _default
 ) {}
