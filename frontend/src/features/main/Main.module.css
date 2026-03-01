@@ -1,0 +1,23 @@
+.container {
+width: 100vw;
+height: 100vh;
+overflow: hidden;
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+h1 {
+  color: var(--color-text-primary);
+  margin-bottom: 60px;
+  align-self: flex-start;
+  margin-left: 70px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}

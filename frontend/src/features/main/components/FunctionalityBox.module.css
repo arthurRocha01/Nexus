@@ -1,0 +1,36 @@
+.box {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  border-radius: 12px;
+  padding: 20px;
+  width: 350px;
+  height: 130px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  flex: 1 1 200px;
+}
+
+.box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+h3 {
+  color: var(--color-text-primary);
+  font-size: 18px;
+  align-self: self-start;
+}
+
+p {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  margin-top: 14px;
+}

@@ -1,0 +1,30 @@
+:root {
+  /* Base */
+  --color-background: #f5f5f5; /* cinza muito claro, fundo do app */
+  --color-surface: #ffffff; /* cards e boxes */
+  --color-border: #e0e0e0; /* bordas discretas, separadores */
+
+  /* Texto */
+  --color-text-primary: #1f1f1f; /* quase preto, para títulos */
+  --color-text-secondary: #6b6b6b; /* cinza escuro, para descrições */
+
+  /* Destaque */
+  --color-primary: #4f46e5; /* azul/violeta discreto para botões e links */
+  --color-primary-light: #6366f1; /* hover ou estado ativo suave */
+
+  /* Status */
+  --color-success: #22c55e; /* verde minimalista para OK */
+  --color-error: #ef4444; /* vermelho limpo para erros */
+  --color-warning: #f59e0b; /* amarelo para alertas */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.container {
+  background-color: var(--color-background);
+}
