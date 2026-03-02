@@ -1,21 +1,21 @@
 :root {
   /* Base */
-  --color-background: #f5f5f5; /* cinza muito claro, fundo do app */
-  --color-surface: #ffffff; /* cards e boxes */
-  --color-border: #e0e0e0; /* bordas discretas, separadores */
+  --color-background: #e9ecef; /* Fundo ligeiramente mais escuro para destacar os cards brancos */
+  --color-surface: #ffffff; /* Fundo dos cards e boxes */
+  --color-border: #757575; /* Bordas bem mais marcadas para definir os limites de botões e inputs */
 
   /* Texto */
-  --color-text-primary: #1f1f1f; /* quase preto, para títulos */
-  --color-text-secondary: #6b6b6b; /* cinza escuro, para descrições */
+  --color-text-primary: #121212; /* Quase preto absoluto, essencial para facilitar a leitura */
+  --color-text-secondary: #424242; /* Cinza bem escuro para descrições (garante contraste de leitura) */
 
-  /* Destaque */
-  --color-primary: #4f46e5; /* azul/violeta discreto para botões e links */
-  --color-primary-light: #6366f1; /* hover ou estado ativo suave */
+  /* Destaque (Interação) */
+  --color-primary: #0056b3; /* Azul forte e clássico. É familiar, transmite segurança e tem alto contraste */
+  --color-primary-active: #004085; /* Em vez de clarear no hover/clique, escurecemos para dar certeza da ação */
 
   /* Status */
-  --color-success: #22c55e; /* verde minimalista para OK */
-  --color-error: #ef4444; /* vermelho limpo para erros */
-  --color-warning: #f59e0b; /* amarelo para alertas */
+  --color-success: #157347; /* Verde mais profundo para garantir legibilidade se for usado como texto/ícone */
+  --color-error: #dc3545; /* Vermelho clássico, forte e inequívoco para erros */
+  --color-warning: #cc6600; /* Trocamos o amarelo/âmbar por um laranja-escuro. Amarelo sobre branco é quase invisível para idosos */
 }
 
 * {

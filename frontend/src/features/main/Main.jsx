@@ -7,8 +7,8 @@ const Main = () => {
       <h1>Main</h1>
 
       <div className={styles.grid}>
-        <FunctionalityBox title="feature1" description="description1" href="/feature1" />
-        <FunctionalityBox title="feature2" description="description2" />
+        <FunctionalityBox title="Atualizar Preços" description="Atualizar preços de produtos com valor zerado." href="/update-prices" />
+        <FunctionalityBox title="Consultar Preço" description="Consular preço de custo e de venda do produto." href="/check-prices" />
         <FunctionalityBox title="feature3" description="description3" />
         <FunctionalityBox title="feature4" description="description4" />
         <FunctionalityBox title="feature5" description="description5" />
