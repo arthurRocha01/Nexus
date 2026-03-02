@@ -1,6 +1,6 @@
 package com.arthurrocha.nexus.infrastructure.client.dto;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,21 +12,18 @@ import tools.jackson.databind.annotation.JsonNaming;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class GdoorProductDto {
+public class GdoorProductSummaryDto {
+    private String masterId;
     private String id;
     private String name;
-    private String productType; 
-    private String measureUnit;
-    private Integer commission;
-    private String ippt;
-    private Boolean active;
-    private Boolean ghubSync;
-    private String obs;
     private Boolean hasGrid;
-    private Boolean hasWeigth;
     private Boolean hasSerialNumbers;
-    private List<Object> units;
-    private List<GdoorProductDetailDto> details;
+    private String productType;
+    private String measureUnit;
+    private Integer detailsCount;
+    private Integer totalQuantity;
+    private BigDecimal avgPrice;
+    private String obs;
+    private Boolean active;
     private Boolean useComposition;
-    private Object composition;
 }

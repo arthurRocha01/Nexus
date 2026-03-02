@@ -9,10 +9,8 @@ import org.springframework.web.client.RestClient;
 import com.arthurrocha.nexus.domain.Product;
 import com.arthurrocha.nexus.infrastructure.client.dto.GdoorFetchAllResponse;
 import com.arthurrocha.nexus.infrastructure.client.dto.GdoorFetchOneResponse;
+import com.arthurrocha.nexus.infrastructure.client.dto.GdoorProductDto;
 import com.arthurrocha.nexus.infrastructure.client.mapper.GdoorProductMapper;
-
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.node.ObjectNode;
 
 @Component
 public class GdoorProductClient {
@@ -40,8 +38,10 @@ public class GdoorProductClient {
         return Collections.emptyList();
       }
 
+      System.out.println(response.data());
+
       return response.data().stream()
-        .map(productMapper::toDomain)
+        .map(productMapper::toDomainFromSummary)
         .toList();
   }
 
@@ -61,19 +61,22 @@ public class GdoorProductClient {
   public void update(Product product) {
     String id = product.getId();
 
-    JsonNode rootNode = this.restClient.get()
+    GdoorFetchOneResponse response = this.restClient.get()
       .uri("/products/{id}", id)
       .retrieve()
-      .body(JsonNode.class);
+      .body(GdoorFetchOneResponse.class);
 
-      ObjectNode originalDataNode = (ObjectNode) rootNode.get("data");
+      if (response == null || response.data() == null) {
+        throw new RuntimeException("Falha ao buscar produto na GDoor para atualização. ID: " + id);
+      }
 
-      ObjectNode updatedDataNode = productMapper.fromDomain(originalDataNode, product);
-      System.out.println(updatedDataNode);
+      GdoorProductDto externalProduct = response.data();
+
+      this.productMapper.updateExternalFromDomain(product, externalProduct);
 
       this.restClient.put()
         .uri("/products/{id}", id)
-        .body(updatedDataNode)
+        .body(externalProduct)
         .retrieve()
         .toBodilessEntity();
   }

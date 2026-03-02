@@ -3,34 +3,45 @@ package com.arthurrocha.nexus.infrastructure.client.dto;
 import java.math.BigDecimal;
 import java.util.List;
 
-public record GdoorProductDetailDto(
-    Long id,
-    String description,
-    String reference,
-    Integer current_quantity,
-    Integer minimum_quantity,
-    Integer reserved_quantity,
-    BigDecimal price,
-    BigDecimal wholesale_price,
-    Integer wholesale_quantity,
-    Integer validity_days,
-    BigDecimal cost_price,
-    BigDecimal average_cost,
-    BigDecimal profit_margin,
-    BigDecimal net_weight,
-    BigDecimal gross_weight,
-    Integer origin,
-    String ncm_code,
-    String ex_ncm_code,
-    String cest_code,
-    String classification_code,
-    String fci_code,
-    String cest_ind_escala,
-    String manufacturer_cnpj,
-    List<GdoorBarcodeDto> barcodes,
-    List<Object> tax_rule_relations,
-    List<Object> kits,
-    List<Object> fuel_origins,
-    Object anvisa,
-    List<Object> serial_numbers
-) {}
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import tools.jackson.databind.PropertyNamingStrategies;
+import tools.jackson.databind.annotation.JsonNaming;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class GdoorProductDetailDto {
+
+    private Long id;
+    private String description;
+    private String reference;
+    private Integer currentQuantity;
+    private Integer minimumQuantity;
+    private Integer reservedQuantity;
+    private BigDecimal price;
+    private BigDecimal wholesalePrice;
+    private Integer wholesaleQuantity;
+    private Integer validityDays;
+    private BigDecimal costPrice;
+    private BigDecimal averageCost;
+    private BigDecimal profitMargin;
+    private BigDecimal netWeight;
+    private BigDecimal grossWeight;
+    private Integer origin;
+    private String ncmCode;
+    private String exNcmCode;
+    private String cestCode;
+    private String classificationCode;
+    private String fciCode;
+    private String cestIndEscala;
+    private String manufacturerCnpj;
+    private List<GdoorBarcodeDto> barcodes;
+    private List<Object> taxRuleRelations;
+    private List<Object> kits;
+    private List<Object> fuelOrigins;
+    private Object anvisa;
+    private List<Object> serialNumbers;
+}

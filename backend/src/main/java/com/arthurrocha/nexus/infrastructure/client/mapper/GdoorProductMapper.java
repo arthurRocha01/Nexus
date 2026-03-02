@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 import com.arthurrocha.nexus.domain.Product;
 import com.arthurrocha.nexus.infrastructure.client.dto.GdoorProductDetailDto;
 import com.arthurrocha.nexus.infrastructure.client.dto.GdoorProductDto;
-
-import tools.jackson.databind.node.ArrayNode;
-import tools.jackson.databind.node.ObjectNode;
+import com.arthurrocha.nexus.infrastructure.client.dto.GdoorProductSummaryDto;
 
 @Component
 public class GdoorProductMapper {
@@ -18,9 +16,9 @@ public class GdoorProductMapper {
         return null; 
     }
 
-    Product.Builder builder = new Product.Builder(dto.id(), dto.name());
+    Product.Builder builder = new Product.Builder(dto.getId(), dto.getName());
 
-    List<GdoorProductDetailDto> details = dto.details();
+    List<GdoorProductDetailDto> details = dto.getDetails();
 
     if (details == null || details.isEmpty()) {
         throw new IllegalStateException("Nenhum produto retornado pela API");
@@ -28,72 +26,67 @@ public class GdoorProductMapper {
 
     GdoorProductDetailDto detail = details.get(0);
 
-    if (detail.current_quantity() != null) {
-    builder.quantity(detail.current_quantity());
+    if (detail.getCurrentQuantity() != null) {
+    builder.quantity(detail.getCurrentQuantity());
     }
     
-    if (detail.price() != null) {
-    builder.price(detail.price());
+    if (detail.getPrice() != null) {
+    builder.price(detail.getPrice());
     }
     
-    if (detail.ncm_code() != null) {
-    builder.ncm(detail.ncm_code());
+    if (detail.getNcmCode() != null) {
+    builder.ncm(detail.getNcmCode());
     }
     
-    if (!detail.barcodes().isEmpty()) {
-        builder.barcode(detail.barcodes().get(0).barcode());
+    if (!detail.getBarcodes().isEmpty()) {
+        builder.barcode(detail.getBarcodes().get(0).getBarcode());
     }
 
     return builder.build();
     }
 
-    public ObjectNode fromDomain(ObjectNode dataNode, Product product) {
-        updateRootFields(dataNode, product);
-        updateDetails(dataNode, product);
-        return dataNode;
+    public Product toDomainFromSummary(GdoorProductSummaryDto summaryDto) {
+        if (summaryDto == null) {
+            return null;
+        }
+
+        Product.Builder builder = new Product.Builder(summaryDto.getId(), summaryDto.getName());
+
+        if (summaryDto.getTotalQuantity() != null) {
+            builder.quantity(summaryDto.getTotalQuantity());
+        }
+
+        if (summaryDto.getAvgPrice() != null) {
+            builder.price(summaryDto.getAvgPrice());
+        }
+
+        return builder.build();
     }
 
-    private void updateRootFields(ObjectNode dataNode, Product product) {
-        if (product.getDescription() != null) {
-            dataNode.put("name", product.getDescription());
-        }
-    }
-
-    private void updateDetails(ObjectNode dataNode, Product product) {
-        if (!dataNode.has("details") || !dataNode.get("details").isArray()) return;
-        
-        ArrayNode detailsArray = (ArrayNode) dataNode.get("details");
-        if (detailsArray.isEmpty()) return;
-
-        ObjectNode firstDetail = (ObjectNode) detailsArray.get(0);
-        
-        if (product.getPrice() != null) {
-            firstDetail.put("price", product.getPrice().doubleValue());
-        }
-        if (product.getQuantity() != null) {
-            firstDetail.put("current_quantity", product.getQuantity());
-        }
-        if (product.getDescription() != null) {
-            firstDetail.put("name", product.getDescription());
-        }
-        if (product.getNcm() != null) {
-            firstDetail.put("ncm_code", product.getNcm());
+    public void updateExternalFromDomain(Product product, GdoorProductDto externalDto) {
+        if (product == null || externalDto == null) {
+            return;
         }
 
-        updateBarcodes(firstDetail, product);
-    }
-
-    private void updateBarcodes(ObjectNode firstDetail, Product product) {
-        if (product.getBarcode() == null) return;
-
-        if (firstDetail.has("barcode") && firstDetail.get("barcode").isObject()) {
-            ((ObjectNode) firstDetail.get("barcode")).put("barcode", product.getBarcode());
+        if(product.getDescription() != null) {
+            externalDto.setName(product.getDescription());
         }
-        
-        if (firstDetail.has("barcodes") && firstDetail.get("barcodes").isArray()) {
-            ArrayNode barcodesList = (ArrayNode) firstDetail.get("barcodes");
-            if (!barcodesList.isEmpty()) {
-                ((ObjectNode) barcodesList.get(0)).put("barcode", product.getBarcode());
+
+        List<GdoorProductDetailDto> details = externalDto.getDetails();
+
+        if (details != null && !details.isEmpty()) {
+            GdoorProductDetailDto detail = details.get(0);
+
+            if (product.getPrice() != null) {
+                detail.setPrice(product.getPrice());
+            }
+
+            if (product.getQuantity() != null) {
+                detail.setCurrentQuantity(product.getQuantity());
+            }
+
+            if (product.getNcm() != null) {
+                detail.setNcmCode(product.getNcm());
             }
         }
     }
