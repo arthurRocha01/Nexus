@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.arthurrocha.nexus.domain.Product;
-import com.arthurrocha.nexus.infrastructure.client.GdoorProductClient;
+import com.arthurrocha.nexus.infrastructure.client.gdoor.GdoorProductClient;
 
 @Service
 public class ProductService {

@@ -11,16 +11,26 @@ public class GdoorClientConfig {
   @Value("${gdoor.api.url}")
   private String baseUrl;
 
-  @Value("${gdoor.api.token}")
-  private String token;
+  private final GdoorTokenManager tokenManager;
 
+  public GdoorClientConfig(GdoorTokenManager tokenManager) {
+    this.tokenManager = tokenManager;
+  }
 
-  @Bean()
+  @Bean(name = "gdoorRestClient")
   public RestClient gdoorClient() {
     return RestClient.builder()
       .baseUrl(this.baseUrl)
-      .defaultHeader("Accept", "application/json")
-      .defaultHeader("Authorization", "Bearer " + this.token)
+      .defaultHeader("Content-Type", "application/json")
+      .requestInterceptor((request, body, execution) -> {
+        String token = this.tokenManager.getCurrentToken();
+
+        if (token != null && !token.isEmpty()) {
+          request.getHeaders().setBearerAuth(token);
+        }
+
+        return execution.execute(request, body);
+      })
       .build();
   }
 }
