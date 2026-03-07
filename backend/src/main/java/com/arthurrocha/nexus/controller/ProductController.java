@@ -24,23 +24,29 @@ public class ProductController {
   }
 
   @GetMapping
-  public ResponseEntity<List<Product>> list(
+  public ResponseEntity<List<Product>> findAll(
     @RequestParam(defaultValue = "1") int page,
     @RequestParam(defaultValue = "10") int limit
   ) {
-    List<Product> products = this.service.listProducts(page, limit);
+    List<Product> products = this.service.findAll(page, limit);
     return ResponseEntity.ok(products);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<Product> findById(@PathVariable String id) {
-    Product product = this.service.getProductById(id);
+    Product product = this.service.findById(id);
     return ResponseEntity.ok(product);
   }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody Product product) {
-      this.service.updateProduct(id, product);
+      this.service.update(id, product);
       return ResponseEntity.noContent().build(); 
+    }
+
+    @GetMapping("/{id}/check-price")
+    public ResponseEntity<Product> checkPriceMatch(@PathVariable String id) {
+      Product product = this.service.checkPriceMatch(id);;
+      return ResponseEntity.ok(product);
     }
 }

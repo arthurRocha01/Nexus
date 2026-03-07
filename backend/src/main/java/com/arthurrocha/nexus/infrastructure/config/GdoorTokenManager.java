@@ -35,7 +35,7 @@ public class GdoorTokenManager {
 
   private void updateToken() {
     try {
-      String newToken = this.automationClient.fetchNewGdoorToken();
+      String newToken = this.automationClient.fetchGdoorToken();
       this.currentJwtToken.set(newToken);
     } catch (Exception e) {
       System.out.println("Falha ao atualizar token Gdoor: " + e.getMessage());

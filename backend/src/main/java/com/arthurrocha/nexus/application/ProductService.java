@@ -5,32 +5,35 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.arthurrocha.nexus.domain.Product;
+import com.arthurrocha.nexus.infrastructure.client.automation.AutomationClient;
 import com.arthurrocha.nexus.infrastructure.client.gdoor.GdoorProductClient;
 
 @Service
 public class ProductService {
-  private final GdoorProductClient gdoorClient; 
+  private final GdoorProductClient gdoorClient;
+  private final AutomationClient automationClient;
 
-  public ProductService(GdoorProductClient gdoorClient) {
+
+  public ProductService(GdoorProductClient gdoorClient, AutomationClient automationClient) {
     this.gdoorClient = gdoorClient;
+    this.automationClient = automationClient;
+  
   }
 
-  public List<Product> listProducts(int page, int limit) {
+  public List<Product> findAll(int page, int limit) {
     return this.gdoorClient.fetchAll(page, limit);
   }
 
-  public Product getProductById(String id) {
+  public Product findById(String id) {
     return this.gdoorClient.fetchById(id);
   }
 
-  public void updateProduct(String id, Product productData) {
-    Product productToUpdate = new Product.Builder(id, productData.getDescription())
-      .price(productData.getPrice())
-      .quantity(productData.getQuantity())
-      .ncm(productData.getNcm())
-      .barcode(productData.getBarcode())
-      .build();
+  public void update(String id, Product productData) {
+    this.gdoorClient.update(productData);
+  }
 
-    this.gdoorClient.update(productToUpdate);
+  public Product checkPriceMatch(String id) {
+    Product product = this.gdoorClient.fetchById(id);
+    return this.automationClient.checkPriceMatch(product);
   }
 }
