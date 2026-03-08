@@ -1,41 +1,48 @@
+import json
+from pathlib import Path
 from rapidfuzz import process, fuzz
-from typing import List
 from app.schemas.matching_schemas import SimpleProductItem, MatchSuggestion
 
-def find_similar_products(
-    products_received: List[SimpleProductItem],
-    products_for_comparsion: List[SimpleProductItem],
-    min_score_threshold: float
-) -> List[MatchSuggestion]:
+BASE_DIR = Path(__file__).resolve().parents[2]
+FILE_PATH = BASE_DIR / "resources" / "gweb_export_old.json"
+
+def __load_products_to_match():
+  with open(FILE_PATH, 'r', encoding='utf-8') as file:
+    data =  json.load(file)
+  return data['products']
+
+def __load_products_name_to_match():
+  products_to_match = __load_products_to_match()
+  return [p['name'] for p in products_to_match]
+
+PRODUCTS_NAME_TO_MATCH = __load_products_name_to_match()
+
+def __get_similar_product(product_for_comparison: SimpleProductItem, min_score):
+  product_name_to_comparison = product_for_comparison.description
+
+  match = process.extractOne(
+    query=product_name_to_comparison,
+    choices=PRODUCTS_NAME_TO_MATCH,
+    scorer=fuzz.token_sort_ratio,
+  )
+
+  return match
+
+def find_similar_product(
+    product_for_comparison: SimpleProductItem,
+  min_score: float = 80
+) -> MatchSuggestion:
+  match = __get_similar_product(product_for_comparison, min_score)
   
-  suggestions = []
-
-  dict_products_for_comparsion = {p.description: p for p in products_for_comparsion}
-  descriptions_products_for_comparsion = list(dict_products_for_comparsion.keys())
-
-  for product_received in products_received:
-    result = process.extractOne(
-      query=product_received.description,
-      choices=descriptions_products_for_comparsion,
-      scorer= fuzz.token_sort_ratio
+  if match is None:
+    return MatchSuggestion(
+      compared_product=product_for_comparison,
+      corresponding_product_name=None,
+      similarity_score=None
     )
-
-    if result:
-      best_description_match, matching_score, _ = result
-
-      if matching_score >= min_score_threshold:
-        product_received_corresponds = dict_products_for_comparsion[best_description_match]
-
-        if product_received_corresponds.cost_price is not None and product_received_corresponds.cost_price > 0:
-          suggestions.append(
-            MatchSuggestion(
-              product_id=product_received.id,
-              corresponding_product_id=product_received_corresponds.id,
-              product_description=product_received.description,
-              corresponding_product_description=product_received_corresponds.description,
-              similarity_score=round(matching_score, 2),
-              suggested_cost_price=product_received_corresponds.cost_price
-            )
-          )
-
-  return suggestions
+  
+  return MatchSuggestion(
+    compared_product=product_for_comparison,
+    corresponding_product_name=match[0],
+    similarity_score=match[1]
+  )
