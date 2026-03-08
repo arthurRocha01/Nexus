@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arthurrocha.nexus.application.ProductService;
 import com.arthurrocha.nexus.domain.Product;
+import com.arthurrocha.nexus.domain.ProductMatchResult;
 
 @RestController
 @RequestMapping("/products")
@@ -45,8 +46,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}/check-price")
-    public ResponseEntity<Product> checkPriceMatch(@PathVariable String id) {
-      Product product = this.service.checkPriceMatch(id);;
+    public ResponseEntity<ProductMatchResult> checkPriceMatch(@PathVariable String id) {
+      ProductMatchResult product = this.service.checkPriceMatch(id);
       return ResponseEntity.ok(product);
     }
 }

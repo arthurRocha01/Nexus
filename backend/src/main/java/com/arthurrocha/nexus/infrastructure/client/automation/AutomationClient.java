@@ -5,9 +5,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import com.arthurrocha.nexus.domain.Product;
+import com.arthurrocha.nexus.domain.ProductMatchResult;
 import com.arthurrocha.nexus.infrastructure.client.automation.dto.AutomationAuthResponseDto;
 import com.arthurrocha.nexus.infrastructure.client.automation.dto.AutomationCheckPriceRequestDto;
-import com.arthurrocha.nexus.infrastructure.client.automation.dto.AutomationFetchOneResponseDto;
+import com.arthurrocha.nexus.infrastructure.client.automation.dto.AutomationCheckPriceResponseDto;
 import com.arthurrocha.nexus.infrastructure.client.automation.mapper.AutomationProductMapper;
 
 @Component
@@ -34,19 +35,19 @@ public class AutomationClient {
       return response.getJwt_token();
   }
 
-  public Product checkPriceMatch(Product product) {
+  public ProductMatchResult checkPriceMatch(Product product) {
     AutomationCheckPriceRequestDto requestBody = this.productMapper.toRequestDto(product);
 
-    AutomationFetchOneResponseDto response = this.restClient.post()
-      .uri("/checkprice")
+    AutomationCheckPriceResponseDto response = this.restClient.post()
+      .uri("/inventory/check-price")
       .body(requestBody)
       .retrieve()
-      .body(AutomationFetchOneResponseDto.class);
+      .body(AutomationCheckPriceResponseDto.class);
 
       if (response == null) {
-        throw new RuntimeException("Falha ao buscar produto na Automation.");
+        throw new RuntimeException("Falha ao buscar produto em Automation.");
       }
 
-      return this.productMapper.toDomain(response.data());
+      return this.productMapper.toMatchResult(response, product);
   }
 }

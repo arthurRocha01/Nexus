@@ -1,20 +1,21 @@
 package com.arthurrocha.nexus.infrastructure.client.automation.dto;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tools.jackson.databind.PropertyNamingStrategies;
 import tools.jackson.databind.annotation.JsonNaming;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class AutomationProductBarcodeDto {
-  private Integer id;
-  private Integer masterId;
-  private Integer productId;
-  private String barcode;
-  private Integer multiplier;
-  private Boolean defaultValue;
+public class AutomationCheckPriceResponseDto {
+  private AutomationCheckPriceRequestDto comparedProduct;
+  private String correspondingProductName;
+  private BigDecimal similarityScore;
 }

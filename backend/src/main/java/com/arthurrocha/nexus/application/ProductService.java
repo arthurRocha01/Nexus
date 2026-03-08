@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.arthurrocha.nexus.domain.Product;
+import com.arthurrocha.nexus.domain.ProductMatchResult;
 import com.arthurrocha.nexus.infrastructure.client.automation.AutomationClient;
 import com.arthurrocha.nexus.infrastructure.client.gdoor.GdoorProductClient;
 
@@ -32,7 +33,7 @@ public class ProductService {
     this.gdoorClient.update(productData);
   }
 
-  public Product checkPriceMatch(String id) {
+  public ProductMatchResult checkPriceMatch(String id) {
     Product product = this.gdoorClient.fetchById(id);
     return this.automationClient.checkPriceMatch(product);
   }
