@@ -11,30 +11,33 @@ import com.arthurrocha.nexus.infrastructure.client.gdoor.GdoorProductClient;
 
 @Service
 public class ProductService {
-  private final GdoorProductClient gdoorClient;
-  private final AutomationClient automationClient;
-
-
-  public ProductService(GdoorProductClient gdoorClient, AutomationClient automationClient) {
-    this.gdoorClient = gdoorClient;
-    this.automationClient = automationClient;
-  
-  }
-
-  public List<Product> findAll(int page, int limit) {
-    return this.gdoorClient.fetchAll(page, limit);
-  }
-
-  public Product findById(String id) {
-    return this.gdoorClient.fetchById(id);
-  }
-
-  public void update(String id, Product productData) {
-    this.gdoorClient.update(productData);
-  }
-
-  public ProductMatchResult checkPriceMatch(String id) {
-    Product product = this.gdoorClient.fetchById(id);
-    return this.automationClient.checkPriceMatch(product);
-  }
+    private final GdoorProductClient gdoorClient;
+    private final AutomationClient automationClient;
+    
+    public ProductService(GdoorProductClient gdoorClient, AutomationClient automationClient) {
+        this.gdoorClient = gdoorClient;
+        this.automationClient = automationClient;
+        
+    }
+    
+    public List<Product> findAll(int page, int limit) {
+        return this.gdoorClient.fetchAll(page, limit);
+    }
+    
+    public Product findById(String id) {
+        return this.gdoorClient.fetchById(id);
+    }
+    
+    public List<Product> findByBarcode(String barcode ) {
+        return this.gdoorClient.fetchByBarcode(barcode);
+    }
+    
+    public void update(String id, Product productData) {
+        this.gdoorClient.update(productData);
+    }
+    
+    public ProductMatchResult checkPriceMatch(String id) {
+        Product product = this.gdoorClient.fetchById(id);
+        return this.automationClient.checkPriceMatch(product);
+    }
 }

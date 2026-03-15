@@ -58,6 +58,25 @@ public class GdoorProductClient {
         
         return this.productMapper.toDomain(response.data());
     }
+
+    public List<Product> fetchByBarcode(String barcode) {
+        GdoorFetchAllResponse response = this.restClient.get()
+        .uri(uriBuilder -> uriBuilder
+            .path("/products")
+            .queryParam("search", barcode)
+            .build()
+        )
+        .retrieve()
+        .body(GdoorFetchAllResponse.class);
+
+        if (response == null) {
+            return null;
+        }
+    
+        return response.data().stream()
+        .map(productMapper::toDomainFromSummary)
+        .toList();
+    }
     
     public void update(Product product) {
         String id = product.getId();

@@ -38,6 +38,12 @@ public class ProductController {
         Product product = this.service.findById(id);
         return ResponseEntity.ok(product);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> findByBarcode(@RequestParam String barcode) {
+        List<Product> product = this.service.findByBarcode(barcode);
+        return ResponseEntity.ok(product);
+    }
     
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody Product product) {
