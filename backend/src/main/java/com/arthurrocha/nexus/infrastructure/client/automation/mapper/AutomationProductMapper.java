@@ -9,31 +9,31 @@ import com.arthurrocha.nexus.infrastructure.client.automation.dto.AutomationChec
 
 @Component
 public class AutomationProductMapper {
-
+    
     public AutomationCheckPriceRequestDto toRequestDto(Product product) {
-      if (product == null) {
-        return null;
-      }
-
-      return AutomationCheckPriceRequestDto.builder()
-      .id(product.getId())
-      .description(product.getDescription())
-      .quantity(product.getQuantity())
-      .price(product.getPrice())
-      .ncm(product.getNcm())
-      .barcode(product.getBarcode())
-      .build();
+        if (product == null) {
+            return null;
+        }
+        
+        return AutomationCheckPriceRequestDto.builder()
+        .id(product.getId())
+        .description(product.getDescription())
+        .quantity(product.getQuantity())
+        .price(product.getPrice())
+        .ncm(product.getNcm())
+        .barcode(product.getBarcode())
+        .build();
     }
-
+    
     public ProductMatchResult toMatchResult(AutomationCheckPriceResponseDto dto, Product originalProduct) {
-      if (dto == null) {
-        return null;
-      }
-
-      return new ProductMatchResult(
-        originalProduct,
-        dto.getCorrespondingProductName(),
-        dto.getSimilarityScore()
-      );
+        if (dto == null) {
+            return null;
+        }
+        
+        return new ProductMatchResult(
+            originalProduct,
+            dto.getCorrespondingProductName(),
+            dto.getSimilarityScore()
+        );
     }
 }

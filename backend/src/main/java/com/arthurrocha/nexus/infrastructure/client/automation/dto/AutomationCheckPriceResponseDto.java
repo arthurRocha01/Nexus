@@ -15,7 +15,7 @@ import tools.jackson.databind.annotation.JsonNaming;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AutomationCheckPriceResponseDto {
-  private AutomationCheckPriceRequestDto comparedProduct;
-  private String correspondingProductName;
-  private BigDecimal similarityScore;
+    private AutomationCheckPriceRequestDto comparedProduct;
+    private String correspondingProductName;
+    private BigDecimal similarityScore;
 }

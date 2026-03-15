@@ -13,41 +13,41 @@ import com.arthurrocha.nexus.infrastructure.client.automation.mapper.AutomationP
 
 @Component
 public class AutomationClient {
-  
-  private final RestClient restClient;
-  private final AutomationProductMapper productMapper;
-
-  public AutomationClient(@Qualifier("automationRestClient") RestClient restClient, AutomationProductMapper productMapper) {
-    this.restClient = restClient;
-    this.productMapper = productMapper;
-  }
-
-  public String fetchGdoorToken() {
-    AutomationAuthResponseDto response = this.restClient.get()
-      .uri("/auth/gdoor-token")
-      .retrieve()
-      .body(AutomationAuthResponseDto.class);
-
-      if (response == null || response.getJwt_token() == null) {
-        return null;
-      }
-
-      return response.getJwt_token();
-  }
-
-  public ProductMatchResult checkPriceMatch(Product product) {
-    AutomationCheckPriceRequestDto requestBody = this.productMapper.toRequestDto(product);
-
-    AutomationCheckPriceResponseDto response = this.restClient.post()
-      .uri("/inventory/check-price")
-      .body(requestBody)
-      .retrieve()
-      .body(AutomationCheckPriceResponseDto.class);
-
-      if (response == null) {
-        throw new RuntimeException("Falha ao buscar produto em Automation.");
-      }
-
-      return this.productMapper.toMatchResult(response, product);
-  }
+    
+    private final RestClient restClient;
+    private final AutomationProductMapper productMapper;
+    
+    public AutomationClient(@Qualifier("automationRestClient") RestClient restClient, AutomationProductMapper productMapper) {
+        this.restClient = restClient;
+        this.productMapper = productMapper;
+    }
+    
+    public String fetchGdoorToken() {
+        AutomationAuthResponseDto response = this.restClient.get()
+        .uri("/auth/gdoor-token")
+        .retrieve()
+        .body(AutomationAuthResponseDto.class);
+        
+        if (response == null || response.getJwt_token() == null) {
+            return null;
+        }
+        
+        return response.getJwt_token();
+    }
+    
+    public ProductMatchResult checkPriceMatch(Product product) {
+        AutomationCheckPriceRequestDto requestBody = this.productMapper.toRequestDto(product);
+        
+        AutomationCheckPriceResponseDto response = this.restClient.post()
+        .uri("/inventory/check-price")
+        .body(requestBody)
+        .retrieve()
+        .body(AutomationCheckPriceResponseDto.class);
+        
+        if (response == null) {
+            throw new RuntimeException("Falha ao buscar produto em Automation.");
+        }
+        
+        return this.productMapper.toMatchResult(response, product);
+    }
 }

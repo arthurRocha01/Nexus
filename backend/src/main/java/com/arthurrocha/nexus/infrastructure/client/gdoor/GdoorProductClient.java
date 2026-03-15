@@ -15,70 +15,70 @@ import com.arthurrocha.nexus.infrastructure.client.gdoor.mapper.GdoorProductMapp
 
 @Component
 public class GdoorProductClient {
-  
-  private final RestClient restClient;
-  private final GdoorProductMapper productMapper;
-
-  public GdoorProductClient(@Qualifier("gdoorRestClient") RestClient restClient, GdoorProductMapper productMapper) {
-    this.restClient = restClient;
-    this.productMapper = productMapper;
-  }
-
-  public List<Product> fetchAll(int page, int limit) {
-    GdoorFetchAllResponse response = this.restClient.get()
-      .uri(uriBuilder -> uriBuilder
-        .path("/products")
-        .queryParam("page", page)
-        .queryParam("limit", limit)
-        .build()
-      )
-      .retrieve()
-      .body(GdoorFetchAllResponse.class);
-
-      if (response == null || response.data() == null) {
-        return Collections.emptyList();
-      }
-
-      System.out.println(response.data());
-
-      return response.data().stream()
+    
+    private final RestClient restClient;
+    private final GdoorProductMapper productMapper;
+    
+    public GdoorProductClient(@Qualifier("gdoorRestClient") RestClient restClient, GdoorProductMapper productMapper) {
+        this.restClient = restClient;
+        this.productMapper = productMapper;
+    }
+    
+    public List<Product> fetchAll(int page, int limit) {
+        GdoorFetchAllResponse response = this.restClient.get()
+        .uri(uriBuilder -> uriBuilder
+            .path("/products")
+            .queryParam("page", page)
+            .queryParam("limit", limit)
+            .build()
+        )
+        .retrieve()
+        .body(GdoorFetchAllResponse.class);
+        
+        if (response == null || response.data() == null) {
+            return Collections.emptyList();
+        }
+        
+        System.out.println(response.data());
+        
+        return response.data().stream()
         .map(productMapper::toDomainFromSummary)
         .toList();
-  }
-
-  public Product fetchById(String id) {
-    GdoorFetchOneResponse response = this.restClient.get()
-      .uri("/products/{id}", id)
-      .retrieve()
-      .body(GdoorFetchOneResponse.class);
-
-      if (response == null) {
-        return null;
-      }
-
-      return this.productMapper.toDomain(response.data());
-  }
-
-  public void update(Product product) {
-    String id = product.getId();
-
-    GdoorFetchOneResponse response = this.restClient.get()
-      .uri("/products/{id}", id)
-      .retrieve()
-      .body(GdoorFetchOneResponse.class);
-
-      if (response == null || response.data() == null) {
-        throw new RuntimeException("Falha ao buscar produto na GDoor para atualização. ID: " + id);
-      }
-
-      GdoorProductDto externalProduct = response.data();
-
-      this.productMapper.updateExternalFromDomain(product, externalProduct);
-
-      this.restClient.put()
+    }
+    
+    public Product fetchById(String id) {
+        GdoorFetchOneResponse response = this.restClient.get()
+        .uri("/products/{id}", id)
+        .retrieve()
+        .body(GdoorFetchOneResponse.class);
+        
+        if (response == null) {
+            return null;
+        }
+        
+        return this.productMapper.toDomain(response.data());
+    }
+    
+    public void update(Product product) {
+        String id = product.getId();
+        
+        GdoorFetchOneResponse response = this.restClient.get()
+        .uri("/products/{id}", id)
+        .retrieve()
+        .body(GdoorFetchOneResponse.class);
+        
+        if (response == null || response.data() == null) {
+            throw new RuntimeException("Falha ao buscar produto na GDoor para atualização. ID: " + id);
+        }
+        
+        GdoorProductDto externalProduct = response.data();
+        
+        this.productMapper.updateExternalFromDomain(product, externalProduct);
+        
+        this.restClient.put()
         .uri("/products/{id}", id)
         .body(externalProduct)
         .retrieve()
         .toBodilessEntity();
-  }
+    }
 }

@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AutomationCheckPriceRequestDto {
-  private String id;
-  private String description;
-  private int quantity; 
-  private BigDecimal price;
-  private String ncm;
-  private String barcode;
+    private String id;
+    private String description;
+    private int quantity; 
+    private BigDecimal price;
+    private String ncm;
+    private String barcode;
 }

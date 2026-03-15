@@ -11,12 +11,12 @@ import tools.jackson.databind.annotation.JsonNaming;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class GdoorBarcodeDto {
-
+    
     private Integer id;
     private Integer masterId;
     private Integer productId;
     private String barcode;
     private Integer multiplier;
     private Boolean defaultValue;
-
+    
 }

@@ -14,7 +14,7 @@ import tools.jackson.databind.annotation.JsonNaming;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class GdoorProductDetailDto {
-
+    
     private Long id;
     private String description;
     private String reference;

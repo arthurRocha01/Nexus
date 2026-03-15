@@ -9,6 +9,6 @@ import tools.jackson.databind.annotation.JsonNaming;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AutomationAuthResponseDto {
-  private String jwt_token;
-  private String message;
+    private String jwt_token;
+    private String message;
 }

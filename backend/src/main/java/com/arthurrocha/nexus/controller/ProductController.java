@@ -18,36 +18,36 @@ import com.arthurrocha.nexus.domain.ProductMatchResult;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-  private final ProductService service;
-
-  public ProductController(ProductService service) {
-    this.service = service;
-  }
-
-  @GetMapping
-  public ResponseEntity<List<Product>> findAll(
-    @RequestParam(defaultValue = "1") int page,
-    @RequestParam(defaultValue = "10") int limit
-  ) {
-    List<Product> products = this.service.findAll(page, limit);
-    return ResponseEntity.ok(products);
-  }
-
-  @GetMapping("/{id}")
-  public ResponseEntity<Product> findById(@PathVariable String id) {
-    Product product = this.service.findById(id);
-    return ResponseEntity.ok(product);
-  }
-
+    private final ProductService service;
+    
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<Product>> findAll(
+        @RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "10") int limit
+    ) {
+        List<Product> products = this.service.findAll(page, limit);
+        return ResponseEntity.ok(products);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> findById(@PathVariable String id) {
+        Product product = this.service.findById(id);
+        return ResponseEntity.ok(product);
+    }
+    
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody Product product) {
-      this.service.update(id, product);
-      return ResponseEntity.noContent().build(); 
+        this.service.update(id, product);
+        return ResponseEntity.noContent().build(); 
     }
-
+    
     @GetMapping("/{id}/check-price")
     public ResponseEntity<ProductMatchResult> checkPriceMatch(@PathVariable String id) {
-      ProductMatchResult product = this.service.checkPriceMatch(id);
-      return ResponseEntity.ok(product);
+        ProductMatchResult product = this.service.checkPriceMatch(id);
+        return ResponseEntity.ok(product);
     }
 }
