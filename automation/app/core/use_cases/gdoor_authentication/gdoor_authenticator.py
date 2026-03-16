@@ -6,7 +6,7 @@ async def fetch_jwt_from_browser():
         browser = await p.chromium.launch(
             executable_path=authentication_settings.PATH_BROWSER,
             # channel='chrome',
-            headless=False
+            headless=True
         )
 
         context = await browser.new_context()
