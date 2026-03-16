@@ -4,6 +4,6 @@ import java.math.BigDecimal;
 
 public record ProductMatchResult(
     Product originalProduct,
-    String matchedProductName,
+    Product matchedProduct,
     BigDecimal similarityScore
 ) {}

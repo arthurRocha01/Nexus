@@ -14,6 +14,7 @@ public class Product {
     private String description;
     private int quantity;
     private BigDecimal price;
+    private BigDecimal costPrice;
     private String ncm;
     private String barcode;
     
@@ -22,6 +23,7 @@ public class Product {
         this.description = builder.description;
         this.quantity = builder.quantity;
         this.price = builder.price;
+        this.costPrice = builder.costPrice;
         this.ncm = builder.ncm;
         this.barcode = builder.barcode;
     }
@@ -32,6 +34,7 @@ public class Product {
         private String description;
         private Integer quantity;
         private BigDecimal price;
+        private BigDecimal costPrice;
         private String ncm;
         private String barcode;
         
@@ -51,6 +54,11 @@ public class Product {
             
             public Builder price(BigDecimal price) {
                 this.price = price;
+                return this;
+            }
+
+            public Builder costPrice(BigDecimal costPrice) {
+                this.costPrice = costPrice;
                 return this;
             }
             
@@ -83,6 +91,10 @@ public class Product {
         
         public BigDecimal getPrice() {
             return price;
+        }
+
+        public BigDecimal getCostPrice() {
+            return costPrice;
         }
         
         public String getNcm() {

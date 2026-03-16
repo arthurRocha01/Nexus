@@ -33,6 +33,10 @@ public class GdoorProductMapper {
         if (detail.getPrice() != null) {
             builder.price(detail.getPrice());
         }
+
+        if (detail.getCostPrice() != null) {
+            builder.costPrice(detail.getCostPrice());
+        }
         
         if (detail.getNcmCode() != null) {
             builder.ncm(detail.getNcmCode());
@@ -79,6 +83,10 @@ public class GdoorProductMapper {
             
             if (product.getPrice() != null) {
                 detail.setPrice(product.getPrice());
+            }
+
+            if (product.getCostPrice() != null) {
+                detail.setCostPrice(product.getCostPrice());
             }
             
             if (product.getQuantity() != null) {
