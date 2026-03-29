@@ -4,7 +4,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.arthurrocha.nexus.infrastructure.client.automation.AutomationClient;
@@ -24,24 +23,28 @@ public class GdoorTokenManager {
         this.updateToken();
     }
     
-    @Scheduled(fixedRate = 7200000)
-    public void fetchTokenScheduled() {
-        if (this.currentJwtToken.get().isEmpty()) {
-            return;
+    private void updateToken() {    
+        int maxAttempsts = 3;
+        int attempt = 0;
+
+        while (attempt < maxAttempsts) {
+            try {
+                String newToken = this.automationClient.fetchGdoorToken();
+                this.currentJwtToken.set(newToken);
+                System.out.println("Token Gdoor atualizado com sucesso");
+                return;
+            } catch (Exception e) {
+                attempt++;
+                System.out.println(
+                    "Falha ao atualizar token Gdoor - tentativa " + attempt + " de " + maxAttempsts + "\nErro: " + e.getMessage()
+                );
+
+                if (attempt >= maxAttempsts) break;
+                try { Thread.sleep(5000); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
+            }
         }
-        
-        this.updateToken();
     }
-    
-    private void updateToken() {
-        try {
-            String newToken = this.automationClient.fetchGdoorToken();
-            this.currentJwtToken.set(newToken);
-        } catch (Exception e) {
-            System.out.println("Falha ao atualizar token Gdoor: " + e.getMessage());
-        }
-    }
-    
+
     public String getCurrentToken() {
         return this.currentJwtToken.get();
     }

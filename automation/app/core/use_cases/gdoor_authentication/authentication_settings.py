@@ -1,5 +1,10 @@
-EMAIL = '#'
-PASSWORD = '#'
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+EMAIL = os.getenv('LOGIN_EMAIL_GDOOR')
+PASSWORD = os.getenv('LOGIN_PASSWORD_GDOOR')
 
 URL_SITE = 'https://app.gdoorweb.com.br/login'
 PATH_BROWSER = '/usr/bin/brave-browser'
