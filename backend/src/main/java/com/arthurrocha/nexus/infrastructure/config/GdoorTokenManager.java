@@ -27,6 +27,8 @@ public class GdoorTokenManager {
         int maxAttempsts = 3;
         int attempt = 0;
 
+        System.out.println("Buscando token Gdoor...");
+
         while (attempt < maxAttempsts) {
             try {
                 String newToken = this.automationClient.fetchGdoorToken();
